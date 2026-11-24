@@ -1,0 +1,6 @@
+# Runtime requirements (minimum versions); install in an environment of your choice.
+numpy>=1.24          # tested with 1.26.4; random streams are only guaranteed stable within a major version
+scipy>=1.10
+# Optional: label-free threshold (baselines.label_free_threshold) and tests
+# scikit-learn>=1.3
+# pytest>=7

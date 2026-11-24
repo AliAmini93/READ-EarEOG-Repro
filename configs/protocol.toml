@@ -1,0 +1,70 @@
+# Analysis parameters of the article "Detecting return-sweep-like saccades with ear electrodes during
+# continuous-text reading" (manuscript in preparation; see README.md). These are the pre-specified values used in the
+# original analysis. They contain no data and no information about individual recordings.
+#
+# Change a value only to explore your own data; results obtained with changed values are not a reproduction.
+#
+# Used by the pipelines (run_primary, run_causal): [electrodes], [filter], [labels], [detector], [scoring], [causal],
+# [statistics] (seed, n_boot, random_draws). The other values are the defaults of the corresponding functions
+# (velocity baseline, oculomotor quantities, null draws; [line_classes] is passed by the pipeline to line_classes);
+# a test asserts that each function default equals the value here; pass other values to the functions as arguments.
+
+[electrodes]
+# Channel labels of the wearable ear recorder (as named in the article, Methods "Ear derivations").
+left_ear = ["EL1", "EL3", "EL4", "EL5"]     # EL2 was absent in the original recordings
+right_ear = ["ER1", "ER2", "ER3", "ER4"]
+mastoid_left = "M1"
+mastoid_right = "M2"
+forehead = "Fpz"
+
+[filter]
+band_hz = [0.1, 15.0]          # zero-phase Butterworth band-pass applied to every channel before derivation
+order = 4                      # order of the prototype; band-pass => 8 poles, 4 second-order sections
+scale_band_hz = [1.0, 20.0]    # band in which the robust SD used for scaling is computed
+pad_s = 10.0                   # samples within pad_s of either end are excluded from the robust SD
+
+[labels]
+# A saccade inside the analysis window W is a return-sweep label if dx < dx_max and |dy| < abs_dy_max (screen px).
+dx_max_px = -300.0
+abs_dy_max_px = 150.0
+
+[detector]
+after_window_s = [0.10, 0.30]   # window A, half-open [start, end) relative to t
+before_window_s = [-0.25, -0.05] # window B
+refractory_s = 0.6              # minimum spacing of detections (peaks); converted with int(refractory_s * fs)
+theta_min = 0.5                 # threshold grid (units of the scaled signal)
+theta_max = 6.0
+theta_step = 0.1
+
+[scoring]
+tolerance_s = 0.2               # one-to-one matching tolerance, |t_detection - t_label| <= tolerance_s
+
+[causal]
+calibration_s = 60.0            # robust SD from the first calibration_s seconds of W only
+after_window_s = [-0.15, 0.0]   # past-only windows of the causal step statistic
+before_window_s = [-0.60, -0.40]
+match_before_s = 0.1            # a label may precede a detection by up to match_after_s and follow it by match_before_s
+match_after_s = 0.5
+
+[velocity_baseline]
+lambda_grid = [0.5, 0.75, 1.0, 1.25, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0]
+merge_gap_s = 0.03
+before_amplitude_s = [-0.15, -0.05]   # relative to segment start
+after_amplitude_s = [0.05, 0.15]      # relative to segment end
+
+[oculomotor]
+epoch_reject_rsd = 40.0         # reject an epoch if |x - pre-saccade mean| exceeds this many robust SDs
+blink_exclusion_s = [-0.5, 0.7] # reject an epoch (or a control time) with a blink onset in this window
+line_pitch_px = 29.5            # rounded cohort line pitch used for the one-line vertical d'
+quiet_step_s = 0.02             # fixation-noise sampling interval
+
+[line_classes]
+fixations_per_side = 3
+fixation_span_s = 1.5
+left_landing_fraction = 0.35
+
+[statistics]
+seed = 20261121
+n_boot = 10000
+random_draws = 100              # draws of the rate-matched random baseline
+null_draws = 20                 # draws of the false-alarm-eligible null times

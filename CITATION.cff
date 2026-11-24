@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below. The accompanying article is in preparation; its reference will be added here when a public version exists."
+type: software
+title: "READ-EarEOG-Repro: experimental code for detecting and evaluating return-sweep-like saccades from ear electrodes during reading"
+authors:
+  - given-names: Ali
+    family-names: Amini
+version: 0.1.0
+date-released: 2026-11-24
+license: MIT
+repository-code: "https://github.com/AliAmini93/READ-EarEOG-Repro"
+abstract: >-
+  Python code for the experimental procedures of an exploratory study of ear-electrode
+  electro-oculography during continuous-text reading: ear derivations, filtering and scaling,
+  eye-tracker labels and line classes, a step-statistic detector, leave-one-recording-out
+  thresholds, one-to-one event scoring, chance-level and velocity-threshold baselines,
+  saccade-locked gains and d-prime, false-alarm analyses, cohort statistics and a causal
+  variant. No recordings, results or figures are included.
+keywords:
+  - electrooculography
+  - ear-eeg
+  - eye-tracking
+  - event-detection
+  - reproducible-research
